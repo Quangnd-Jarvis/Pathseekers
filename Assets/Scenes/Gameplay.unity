@@ -1870,7 +1870,7 @@ GameObject:
   - component: {fileID: 1967054082}
   - component: {fileID: 1967054083}
   m_Layer: 0
-  m_Name: MapRoot
+  m_Name: SimpleMapGenerator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

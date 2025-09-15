@@ -221,12 +221,6 @@
       },
       "url": "https://packages.unity.com"
     },
-    "jp.setchi.fancyscrollview": {
-      "version": "file:C:/Users/Viet/Downloads/FancyScrollView-1.9.0/FancyScrollView-1.9.0",
-      "depth": 0,
-      "source": "local",
-      "dependencies": {}
-    },
     "com.unity.modules.ai": {
       "version": "1.0.0",
       "depth": 0,

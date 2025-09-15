@@ -4,6 +4,7 @@ using TilePathGame.Validation;
 using TilePathGame.Map;
 using UnityEngine;
 using System.Linq;
+using System;
 
 public class MapManager : MonoBehaviour
 {
@@ -96,24 +97,34 @@ public class MapManager : MonoBehaviour
         }
     }
 
-    private void CheckWinCondition()
+    private void CheckWinCondition(Tuple<Vector2Int, TileInstance> start)
     {
-        if (!_enableGlobalValidation) return;
-
         var mapTiles = SimpleMapGenerator.GetMapTiles();
         if (mapTiles == null) return;
 
         var grid = TileValidator.CreatePartialGridFromMapTiles(mapTiles);
-        var pathResult = PathfindingValidator.IsPathPossible(_startPosition, _goalPosition, grid);
 
-        if (pathResult.isCurrentlyConnected)
+        Vector2Int[] dirs =
+            {
+                new Vector2Int(-1, 0), //up
+                new Vector2Int(0, 1), //right
+                new Vector2Int(1, 0), // down
+                new Vector2Int(0, -1), // left
+            };
+
+        foreach (var dir in dirs)
         {
-            OnGameWon();
+            if (grid.TryGetValue(dir, out TileInstance neighbor))
+            {
+                var pathResult = PathfindingValidator.IsPathPossible(start, Tuple.Create(start.Item1 + dir, neighbor), grid);
+                if (!pathResult.isPathPossible)
+                {
+                    OnGameLost();
+                }
+            }
         }
-        else if (!pathResult.isPathPossible)
-        {
-            OnGameLost();
-        }
+
+        OnGameWon();
     }
 
     private void OnGameWon()
@@ -154,11 +165,5 @@ public class MapManager : MonoBehaviour
                 Destroy(child.gameObject);
             }
         }
-    }
-
-    [ContextMenu("Check Win Condition")]
-    private void DebugCheckWinCondition()
-    {
-        CheckWinCondition();
     }
 }

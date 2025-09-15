@@ -181,16 +181,16 @@ namespace TilePathGame.Validation
             }
             
             // Use PathfindingValidator to check if path is still possible
-            var pathResult = PathfindingValidator.IsPathPossible(startPos.Value, goalPos.Value, grid);
+            //var pathResult = PathfindingValidator.IsPathPossible(startPos.Value, goalPos.Value, grid);
             
-            if (!pathResult.isPathPossible)
-            {
-                issues.Add($"Global validation failed: No possible path from Start to Goal after placing {mapTile.GridPosition}");
-                if (pathResult.issues != null)
-                {
-                    issues.AddRange(pathResult.issues);
-                }
-            }
+            //if (!pathResult.isPathPossible)
+            //{
+            //    issues.Add($"Global validation failed: No possible path from Start to Goal after placing {mapTile.GridPosition}");
+            //    if (pathResult.issues != null)
+            //    {
+            //        issues.AddRange(pathResult.issues);
+            //    }
+            //}
             
             return new ValidationResult(issues.Count == 0, issues);
         }
@@ -392,11 +392,13 @@ namespace TilePathGame.Validation
             
             // Remove the tile from pool temporarily for simulation
             var tempPool = CreateTempPool(tilePool, tileType);
-            
+
             // Check if path is still possible with this placement
-            var pathResult = PathfindingValidator.IsPathPossible(startPos.Value, goalPos.Value, simulatedGrid);
-            
-            return pathResult.isPathPossible;
+            //var pathResult = PathfindingValidator.IsPathPossible(startPos.Value, goalPos.Value, simulatedGrid);
+
+            //return pathResult.isPathPossible;
+
+            return false;
         }
         
         /// <summary>
@@ -538,11 +540,6 @@ namespace TilePathGame.Validation
             return grid;
         }
 
-        /// <summary>
-        /// Creates a grid dictionary that includes empty slots (for partial validation)
-        /// </summary>
-        /// <param name="mapTiles">Array of all MapTile objects (including empty ones)</param>
-        /// <returns>Dictionary mapping positions to TileInstances (null for empty slots)</returns>
         public static Dictionary<Vector2Int, TileInstance> CreatePartialGridFromMapTiles(MapTile[] mapTiles)
         {
             Dictionary<Vector2Int, TileInstance> grid = new Dictionary<Vector2Int, TileInstance>();
